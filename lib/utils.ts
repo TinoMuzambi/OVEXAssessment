@@ -34,7 +34,7 @@ export type MarketType = {
   indicative_pricing: boolean;
   base_currency_long: string;
   quote_currency_long: string;
-}[]
+}
 
 export type CurrencyType = {
   id: string;
@@ -59,6 +59,6 @@ export type CurrencyType = {
   display_precision: number;
   icon_url: string;
   updated_at: string;
-}[]
+}
 
 export const BASE_URL = "www.ovex.io/api/v2"
