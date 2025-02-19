@@ -28,15 +28,11 @@ import { requestQuote } from "@/server/actions";
 import { AppContext } from "@/app/context/AppContext";
 
 const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
-	// Update context with markets and currencies
 	const { markets, setMarkets, setCurrencies, quote, setQuote } =
 		useContext(AppContext);
 
-	useEffect(() => {
-		if (setMarkets) setMarkets(marketsProp);
-		if (setCurrencies) setCurrencies(currenciesProp);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const [fetching, setFetching] = useState(false);
+	const [popoverOpen, setPopoverOpen] = useState(false);
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -48,9 +44,11 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	const market = searchParams.get("market") || "";
 	const amount = searchParams.get("amount") || "";
 
-	const [fetching, setFetching] = useState(false);
-	const [popoverOpen, setPopoverOpen] = useState(false);
-
+	/**
+	 * This function updates the URL query params with the given key and value.
+	 * @param key The key to update
+	 * @param value The value to set to the key
+	 */
 	const handleUpdateParams = (key: string, value: string) => {
 		const newParams = new URLSearchParams(searchParams.toString());
 		if (value) {
@@ -61,6 +59,9 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 		router.replace(`?${newParams.toString()}`);
 	};
 
+	/**
+	 * This function fetches a quote from the server and updates the context with the quote.
+	 */
 	const handleGetQuote = async () => {
 		setFetching(true);
 		try {
@@ -76,6 +77,12 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 		}
 		setFetching(false);
 	};
+
+	useEffect(() => {
+		if (setMarkets) setMarkets(marketsProp);
+		if (setCurrencies) setCurrencies(currenciesProp);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<Card className="w-full max-w-md mx-auto motion-preset-pop">
