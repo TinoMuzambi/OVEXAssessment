@@ -108,7 +108,7 @@ const RFQ: React.FC<RFQProps> = ({ markets }) => {
 					</Button>
 
 					{fetching ? <div>Fetching quote</div> : null}
-					{quote ? <Quote /> : null}
+					{quote ? <Quote quote={quote} /> : null}
 				</div>
 			</CardContent>
 		</Card>
