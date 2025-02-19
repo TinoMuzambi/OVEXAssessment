@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -143,12 +143,13 @@ const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 					</div>
 
 					<Button className="w-full" onClick={handleGetQuote}>
-						Get Quote
+						{fetching ? (
+							<Loader2 className="h-8 w-8 animate-spin" />
+						) : (
+							"Get Quote"
+						)}
 					</Button>
 
-					{fetching ? (
-						<div className="motion-preset-slide-up ">Fetching quote</div>
-					) : null}
 					{quote ? <Quote quote={quote} currencies={currencies} /> : null}
 				</div>
 			</CardContent>
