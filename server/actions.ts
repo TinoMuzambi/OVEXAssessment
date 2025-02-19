@@ -36,12 +36,12 @@ export async function requestQuote({
 	"market" | "from_amount" | "side" | "to_amount"
 >): Promise<QuoteType> {
 	const res = await fetch(
-		`${BASE_URL}/rfq/get_quote?market=${market}&from_amount=${from_amount}&side=${side}&to_amount=${to_amount}`,
-		{
-			method: "POST",
-		}
+		`${BASE_URL}/rfq/get_quote?market=${market}&side=${side}&${
+			side === "buy" ? `from_amount=${from_amount}` : `to_amount=${to_amount}`
+		}`
 	);
 	const json = await res.json();
+	console.log({ json });
 
 	return json;
 }
