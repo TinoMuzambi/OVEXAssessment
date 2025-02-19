@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,14 +17,14 @@ import { Button } from "@/components/ui/button";
 import Quote from "./Quote";
 import { RFQProps } from "@/lib/utils";
 
-const RFQ: React.FC<RFQProps> = ({markets, currencies}) => {
+const RFQ: React.FC<RFQProps> = ({ markets }) => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	
+
 	// Get current values from URL or use defaults
-	const type = searchParams.get('type') || 'buy';
-	const market = searchParams.get('market') || '';
-	const amount = searchParams.get('amount') || '';
+	const type = searchParams.get("type") || "buy";
+	const market = searchParams.get("market") || "";
+	const amount = searchParams.get("amount") || "";
 
 	const handleUpdateParams = (key: string, value: string) => {
 		const newParams = new URLSearchParams(searchParams.toString());
@@ -36,15 +36,17 @@ const RFQ: React.FC<RFQProps> = ({markets, currencies}) => {
 		router.replace(`?${newParams.toString()}`);
 	};
 
-	return <div>
+	return (
 		<Card className="w-full max-w-md mx-auto">
-			<CardHeader className="text-xl font-medium">Request Quote</CardHeader>
+			<CardHeader className="text-xl font-medium">
+				<CardTitle className="text-xl font-medium">Request Quote</CardTitle>
+			</CardHeader>
 			<CardContent className="space-y-6">
-				<Tabs 
-					className="w-full" 
+				<Tabs
+					className="w-full"
 					value={type}
 					onValueChange={(value) => handleUpdateParams("type", value)}
-					>
+				>
 					<TabsList className="grid w-full grid-cols-2">
 						<TabsTrigger value="buy">Buy</TabsTrigger>
 						<TabsTrigger value="sell">Sell</TabsTrigger>
@@ -61,7 +63,7 @@ const RFQ: React.FC<RFQProps> = ({markets, currencies}) => {
 							<SelectTrigger>
 								<SelectValue placeholder="Select a market" />
 							</SelectTrigger>
-							<SelectContent>		
+							<SelectContent>
 								{markets.map((marketIter) => (
 									<SelectItem key={marketIter.id} value={marketIter.id}>
 										{marketIter.name}
@@ -73,23 +75,21 @@ const RFQ: React.FC<RFQProps> = ({markets, currencies}) => {
 
 					<div className="space-y-2">
 						<Label>Amount</Label>
-						<Input 
-							type="number" 
-							placeholder="0.00" 
-							min={0} 
+						<Input
+							type="number"
+							placeholder="0.00"
+							min={0}
 							value={amount}
 							onChange={(e) => handleUpdateParams("amount", e.target.value)}
 						/>
 					</div>
 
-					<Button className="w-full">
-						Get Quote
-					</Button>
+					<Button className="w-full">Get Quote</Button>
 
 					<Quote />
 				</div>
 			</CardContent>
 		</Card>
-	</div>;
+	);
 };
 export default RFQ;
