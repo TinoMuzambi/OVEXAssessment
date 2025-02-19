@@ -64,7 +64,7 @@ const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 	};
 
 	return (
-		<Card className="w-full max-w-md mx-auto">
+		<Card className="w-full max-w-md mx-auto motion-preset-pop">
 			<CardHeader className="text-xl font-medium">
 				<CardTitle className="text-xl font-medium">Request Quote</CardTitle>
 			</CardHeader>
@@ -146,7 +146,9 @@ const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 						Get Quote
 					</Button>
 
-					{fetching ? <div>Fetching quote</div> : null}
+					{fetching ? (
+						<div className="motion-preset-slide-up ">Fetching quote</div>
+					) : null}
 					{quote ? <Quote quote={quote} currencies={currencies} /> : null}
 				</div>
 			</CardContent>

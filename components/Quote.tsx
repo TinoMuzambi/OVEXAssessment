@@ -36,7 +36,7 @@ const Quote: React.FC<QuoteProps> = ({ quote, currencies }) => {
 	};
 
 	return (
-		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg">
+		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg motion-preset-slide-up">
 			<div className="flex justify-between">
 				<span className="text-muted-foreground">Cost:</span>
 				<span className="font-medium">
