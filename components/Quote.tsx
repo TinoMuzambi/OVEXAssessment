@@ -23,20 +23,28 @@ const Quote: React.FC = () => {
 			return;
 		}
 
-		setTimeLeft(Date.now() / 1000 - quote.expires_at);
+		let initialTimeLeft = quote.expires_at - Date.now() / 1000;
+		initialTimeLeft = Math.floor(initialTimeLeft);
+
+		if (initialTimeLeft > 0) {
+			setTimeLeft(initialTimeLeft);
+		} else {
+			setTimeLeft(0);
+		}
+
+		const timer = setInterval(() => {
+			setTimeLeft((prev) => {
+				if (prev <= 1) {
+					clearInterval(timer);
+					return 0;
+				}
+				return prev - 1;
+			});
+		}, 1000);
+
+		return () => clearInterval(timer);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [quote]);
-
-	// Timer to update time left.
-	const timer = setInterval(() => {
-		setTimeLeft((prev) => {
-			if (prev <= 1) {
-				clearInterval(timer);
-				return 0;
-			}
-			return prev - 1;
-		});
-	}, 1000);
 
 	/**
 	 * This function formats a currency amount to a string with the given currency symbol
