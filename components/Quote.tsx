@@ -123,7 +123,7 @@ const Quote: React.FC = () => {
 				</span>
 			</div>
 
-			<Button className="w-full" variant="secondary" disabled>
+			<Button className="w-full" variant="outline" disabled>
 				Accept Quote
 			</Button>
 		</div>
