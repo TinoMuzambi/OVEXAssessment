@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,10 +23,20 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import Quote from "./Quote";
-import { cn, QuoteType, RFQProps } from "@/lib/utils";
+import { cn, RFQProps } from "@/lib/utils";
 import { requestQuote } from "@/server/actions";
+import { AppContext } from "@/app/context/AppContext";
 
-const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
+const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
+	// Update context with markets and currencies
+	const { markets, setMarkets, setCurrencies, quote, setQuote } =
+		useContext(AppContext);
+
+	useEffect(() => {
+		if (setMarkets) setMarkets(marketsProp);
+		if (setCurrencies) setCurrencies(currenciesProp);
+	}, []);
+
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
@@ -37,7 +47,6 @@ const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 	const market = searchParams.get("market") || "";
 	const amount = searchParams.get("amount") || "";
 
-	const [quote, setQuote] = useState<QuoteType>();
 	const [fetching, setFetching] = useState(false);
 	const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -59,7 +68,7 @@ const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 			side,
 			to_amount: amount,
 		});
-		setQuote(quoteRes);
+		if (setQuote) setQuote(quoteRes);
 		setFetching(false);
 	};
 
@@ -154,7 +163,7 @@ const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 						)}
 					</Button>
 
-					{quote ? <Quote quote={quote} currencies={currencies} /> : null}
+					{quote && <Quote />}
 				</div>
 			</CardContent>
 		</Card>

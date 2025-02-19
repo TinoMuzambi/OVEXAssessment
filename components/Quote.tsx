@@ -1,13 +1,22 @@
 "use client";
-import { useState } from "react";
 
-import { QuoteProps } from "@/lib/utils";
+import { useContext, useEffect, useState } from "react";
+
 import { Button } from "./ui/button";
+import { AppContext } from "@/app/context/AppContext";
 
-const Quote: React.FC<QuoteProps> = ({ quote, currencies }) => {
-	const [timeLeft, setTimeLeft] = useState(
-		Date.now() / 1000 - quote.expires_at
-	);
+const Quote: React.FC = () => {
+	// Get data from context
+	const { quote, currencies } = useContext(AppContext);
+	const [timeLeft, setTimeLeft] = useState(0);
+
+	useEffect(() => {
+		if (!quote) {
+			return;
+		}
+
+		setTimeLeft(Date.now() / 1000 - quote.expires_at);
+	}, [quote]);
 
 	// Timer to update time left.
 	const timer = setInterval(() => {
@@ -28,12 +37,21 @@ const Quote: React.FC<QuoteProps> = ({ quote, currencies }) => {
 	 */
 	const currencyFormatter = (currency: string, amount: number) => {
 		const currencyObj = currencies.find((c) => c.id === currency);
+
+		if (!currencyObj) {
+			return amount;
+		}
+
 		return new Intl.NumberFormat("en-ZA", {
 			style: "currency",
-			currency: currency,
+			currency: currencyObj?.id,
 			minimumFractionDigits: currencyObj?.type === "coin" ? 8 : 2,
 		}).format(amount);
 	};
+
+	if (!quote) {
+		return null;
+	}
 
 	return (
 		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg motion-preset-slide-up">
