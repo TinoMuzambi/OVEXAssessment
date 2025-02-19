@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import markets from "@/app/data/markets.json"
+import markets from "@/data/markets.json"
 import Quote from "./Quote";
 
 const RFQ: React.FC = () => {
