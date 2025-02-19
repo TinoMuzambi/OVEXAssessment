@@ -65,3 +65,7 @@ export interface RFQProps {
 	markets: MarketType[];
 	currencies: CurrencyType[];
 }
+
+export interface QuoteProps {
+	quote: QuoteType;
+}
