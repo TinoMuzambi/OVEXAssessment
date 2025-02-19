@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import markets from "@/app/data/markets.json"
+import Quote from "./Quote";
 
 const RFQ: React.FC = () => {
 	return <div className="">
@@ -52,6 +53,8 @@ const RFQ: React.FC = () => {
 					<Button className="w-full">
 						Get Quote
 					</Button>
+
+					<Quote />
 				</div>
 			</CardContent>
 		</Card>
