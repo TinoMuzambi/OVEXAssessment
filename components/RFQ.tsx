@@ -35,6 +35,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	useEffect(() => {
 		if (setMarkets) setMarkets(marketsProp);
 		if (setCurrencies) setCurrencies(currenciesProp);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const router = useRouter();
@@ -62,13 +63,17 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 
 	const handleGetQuote = async () => {
 		setFetching(true);
-		const quoteRes = await requestQuote({
-			market,
-			from_amount: amount,
-			side,
-			to_amount: amount,
-		});
-		if (setQuote) setQuote(quoteRes);
+		try {
+			const quoteRes = await requestQuote({
+				market,
+				from_amount: amount,
+				side,
+				to_amount: amount,
+			});
+			if (setQuote && quoteRes) setQuote(quoteRes);
+		} catch (error) {
+			console.error(error);
+		}
 		setFetching(false);
 	};
 
