@@ -1,5 +1,8 @@
 # OVEX RFQ Component
 
+PR Deployment: [https://ovex-assessment-git-rfq-tino-muzambis-projects.vercel.app/](https://ovex-assessment-git-rfq-tino-muzambis-projects.vercel.app/)
+PR Link: [https://github.com/TinoMuzambi/OVEXAssessment/pull/1](https://github.com/TinoMuzambi/OVEXAssessment/pull/1)
+
 OVEX Request-for-Quote (RFQ) component using OVEX's public endpoints.
 
 ## Requirements
