@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { JSX } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -69,4 +70,30 @@ export interface RFQProps {
 export interface QuoteProps {
 	quote: QuoteType;
 	currencies: CurrencyType[];
+}
+
+export type Actions = {
+	type: "SET_CURRENCIES" | "SET_MARKETS" | "SET_QUOTE";
+	quote: QuoteType;
+	currencies: CurrencyType[];
+	markets: MarketType[];
+};
+
+export type State = {
+	quote: QuoteType;
+	currencies: CurrencyType[];
+	markets: MarketType[];
+};
+
+export interface ContextProps {
+	quote: QuoteType;
+	currencies: CurrencyType[];
+	markets: MarketType[];
+	setQuote?: (quote: QuoteType) => void;
+	setCurrencies?: (currencies: CurrencyType[]) => void;
+	setMarkets?: (markets: MarketType[]) => void;
+}
+
+export interface AppProviderProps {
+	children: JSX.Element;
 }
