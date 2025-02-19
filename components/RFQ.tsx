@@ -142,7 +142,11 @@ const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 						/>
 					</div>
 
-					<Button className="w-full" onClick={handleGetQuote}>
+					<Button
+						disabled={fetching}
+						className="w-full"
+						onClick={handleGetQuote}
+					>
 						{fetching ? (
 							<Loader2 className="h-8 w-8 animate-spin" />
 						) : (
