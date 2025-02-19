@@ -61,4 +61,9 @@ export type CurrencyType = {
   updated_at: string;
 }
 
-export const BASE_URL = "www.ovex.io/api/v2"
+export const BASE_URL = "https://www.ovex.io/api/v2"
+
+export interface RFQProps {
+  markets: MarketType[]
+  currencies: CurrencyType[]
+}
