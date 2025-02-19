@@ -60,3 +60,5 @@ export type CurrencyType = {
   icon_url: string;
   updated_at: string;
 }[]
+
+export const BASE_URL = "www.ovex.io/api/v2"
