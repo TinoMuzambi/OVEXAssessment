@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, JSX, useReducer } from "react";
 
 import AppReducer from "./AppReducer";
@@ -10,7 +12,7 @@ import {
 } from "@/lib/utils";
 
 const initialState: ContextProps = {
-	quote: {} as QuoteType,
+	quote: undefined,
 	currencies: [] as CurrencyType[],
 	markets: [] as MarketType[],
 };
