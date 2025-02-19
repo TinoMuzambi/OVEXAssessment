@@ -3,6 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import { Button } from "./ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { AppContext } from "@/app/context/AppContext";
 
 const Quote: React.FC = () => {
@@ -10,12 +11,20 @@ const Quote: React.FC = () => {
 
 	const [timeLeft, setTimeLeft] = useState(0);
 
+	const { toast } = useToast();
+
 	useEffect(() => {
 		if (!quote) {
+			toast({
+				title: "Error",
+				description: "Failed to get quote. Please try again.",
+				variant: "destructive",
+			});
 			return;
 		}
 
 		setTimeLeft(Date.now() / 1000 - quote.expires_at);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [quote]);
 
 	// Timer to update time left.

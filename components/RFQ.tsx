@@ -22,6 +22,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import { useToast } from "@/hooks/use-toast";
 import Quote from "./Quote";
 import { cn, RFQProps } from "@/lib/utils";
 import { requestQuote } from "@/server/actions";
@@ -36,6 +37,8 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
+
+	const { toast } = useToast();
 
 	// Get current values from URL or use defaults
 	const side: "buy" | "sell" = (searchParams.get("side") || "buy") as
@@ -74,6 +77,11 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 			if (setQuote && quoteRes) setQuote(quoteRes);
 		} catch (error) {
 			console.error(error);
+			toast({
+				title: "Error",
+				description: "Failed to get quote. Please try again.",
+				variant: "destructive",
+			});
 		}
 		setFetching(false);
 	};
