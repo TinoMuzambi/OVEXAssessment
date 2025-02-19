@@ -4,7 +4,7 @@ import { useState } from "react";
 import { QuoteProps } from "@/lib/utils";
 import { Button } from "./ui/button";
 
-const Quote: React.FC<QuoteProps> = ({ quote }) => {
+const Quote: React.FC<QuoteProps> = ({ quote, currencies }) => {
 	const [timeLeft, setTimeLeft] = useState(
 		Date.now() / 1000 - quote.expires_at
 	);
@@ -24,18 +24,14 @@ const Quote: React.FC<QuoteProps> = ({ quote }) => {
 	 * This function formats a currency amount to a string with the given currency symbol
 	 * @param currency The currency to format
 	 * @param amount The amount to format
-	 * @param precision The number of decimal places to display
 	 * @returns A formatted currency string
 	 */
-	const currencyFormatter = (
-		currency: string,
-		amount: number,
-		precision = 2
-	) => {
+	const currencyFormatter = (currency: string, amount: number) => {
+		const currencyObj = currencies.find((c) => c.id === currency);
 		return new Intl.NumberFormat("en-ZA", {
 			style: "currency",
 			currency: currency,
-			minimumFractionDigits: precision,
+			minimumFractionDigits: currencyObj?.type === "coin" ? 8 : 2,
 		}).format(amount);
 	};
 
@@ -60,7 +56,7 @@ const Quote: React.FC<QuoteProps> = ({ quote }) => {
 			<div className="flex justify-between">
 				<span className="text-muted-foreground">You will receive:</span>
 				<span className="font-medium">
-					{currencyFormatter(quote.to_currency, parseFloat(quote.to_amount), 6)}
+					{currencyFormatter(quote.to_currency, parseFloat(quote.to_amount))}
 				</span>
 			</div>
 			<div className="flex justify-between">
