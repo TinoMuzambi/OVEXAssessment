@@ -34,6 +34,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 
 	const [fetching, setFetching] = useState(false);
 	const [popoverOpen, setPopoverOpen] = useState(false);
+	const [tradingPair, setTradingPair] = useState("");
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -89,6 +90,12 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	useEffect(() => {
 		if (setMarkets) setMarkets(marketsProp);
 		if (setCurrencies) setCurrencies(currenciesProp);
+		if (market) {
+			const marketObj = marketsProp.find(
+				(marketIter) => marketIter.id === market
+			);
+			if (marketObj) setTradingPair(marketObj.name);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -96,6 +103,12 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 		<Card className="w-full max-w-md mx-auto motion-preset-pop">
 			<CardHeader className="text-xl font-medium">
 				<CardTitle className="text-xl font-medium">Request Quote</CardTitle>
+				{tradingPair && (
+					<small>
+						{side === "buy" ? "Buy" : "Sell"} {tradingPair.split("/")[0]}{" "}
+						{side === "buy" ? "with" : "for"} {tradingPair.split("/")[1]}{" "}
+					</small>
+				)}
 			</CardHeader>
 			<CardContent className="space-y-6">
 				<Tabs
@@ -140,6 +153,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 													onSelect={(value) => {
 														handleUpdateParams("market", value);
 														setPopoverOpen(false);
+														setTradingPair(marketIter.name);
 													}}
 												>
 													<Check
