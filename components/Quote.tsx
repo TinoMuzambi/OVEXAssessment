@@ -68,7 +68,7 @@ const Quote: React.FC<QuoteProps> = ({ quote, currencies }) => {
 				</span>
 			</div>
 
-			<Button className="w-full" variant="secondary">
+			<Button className="w-full" variant="secondary" disabled>
 				Accept Quote
 			</Button>
 		</div>
