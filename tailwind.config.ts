@@ -58,6 +58,9 @@ export default {
 				md: "calc(var(--radius) - 2px)",
 				sm: "calc(var(--radius) - 4px)",
 			},
+			backgroundImage: {
+				"ovex-logo": "url('/OVEX_Logo.svg')",
+			},
 		},
 	},
 	plugins: [animate, tailwindcssmotion],

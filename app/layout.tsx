@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 	title: "OVEX RFQ",
 	description: "OVEX Request for Quote Component using OVEX API.",
 	icons: {
-		icon: ["/favicon.svg", "ovex_logo_light.svg"],
+		icon: ["/favicon.svg"],
 	},
 };
 
@@ -20,7 +20,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<AppProvider>
-				<body>
+				<body className="bg-ovex-logo bg-no-repeat bg-[length:400px_400px] bg-top lg:bg-top-negative-5 lg:bg-[length:100%_100%]">
 					{children}
 					<Toaster />
 				</body>
