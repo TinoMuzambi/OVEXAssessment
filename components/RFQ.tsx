@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,16 +16,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Quote from "./Quote";
-import { RFQProps } from "@/lib/utils";
+import { QuoteType, RFQProps } from "@/lib/utils";
+import { requestQuote } from "@/server/actions";
 
 const RFQ: React.FC<RFQProps> = ({ markets }) => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
 	// Get current values from URL or use defaults
-	const type = searchParams.get("type") || "buy";
+	const side: "buy" | "sell" = (searchParams.get("side") || "buy") as
+		| "buy"
+		| "sell";
 	const market = searchParams.get("market") || "";
 	const amount = searchParams.get("amount") || "";
+
+	const [quote, setQuote] = useState<QuoteType>();
+	const [fetching, setFetching] = useState(false);
 
 	const handleUpdateParams = (key: string, value: string) => {
 		const newParams = new URLSearchParams(searchParams.toString());
@@ -36,6 +43,18 @@ const RFQ: React.FC<RFQProps> = ({ markets }) => {
 		router.replace(`?${newParams.toString()}`);
 	};
 
+	const handleGetQuote = async () => {
+		setFetching(true);
+		const quoteRes = await requestQuote({
+			market,
+			from_amount: amount,
+			side,
+			to_amount: "1",
+		});
+		setQuote(quoteRes);
+		setFetching(false);
+	};
+
 	return (
 		<Card className="w-full max-w-md mx-auto">
 			<CardHeader className="text-xl font-medium">
@@ -44,8 +63,8 @@ const RFQ: React.FC<RFQProps> = ({ markets }) => {
 			<CardContent className="space-y-6">
 				<Tabs
 					className="w-full"
-					value={type}
-					onValueChange={(value) => handleUpdateParams("type", value)}
+					value={side}
+					onValueChange={(value) => handleUpdateParams("side", value)}
 				>
 					<TabsList className="grid w-full grid-cols-2">
 						<TabsTrigger value="buy">Buy</TabsTrigger>
@@ -53,7 +72,7 @@ const RFQ: React.FC<RFQProps> = ({ markets }) => {
 					</TabsList>
 				</Tabs>
 
-				<div className="sapce-y-4">
+				<div className="space-y-4">
 					<div className="space-y-2">
 						<Label>Select Market</Label>
 						<Select
@@ -84,9 +103,12 @@ const RFQ: React.FC<RFQProps> = ({ markets }) => {
 						/>
 					</div>
 
-					<Button className="w-full">Get Quote</Button>
+					<Button className="w-full" onClick={handleGetQuote}>
+						Get Quote
+					</Button>
 
-					<Quote />
+					{fetching ? <div>Fetching quote</div> : null}
+					{quote ? <Quote /> : null}
 				</div>
 			</CardContent>
 		</Card>
