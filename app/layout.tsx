@@ -7,6 +7,9 @@ import "./globals.css";
 export const metadata: Metadata = {
 	title: "OVEX RFQ",
 	description: "OVEX Request for Quote Component using OVEX API.",
+	icons: {
+		icon: ["/favicon.svg", "ovex_logo_light.svg"],
+	},
 };
 
 export default function RootLayout({
@@ -17,10 +20,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<AppProvider>
-				<>
-					<body>{children}</body>
+				<body>
+					{children}
 					<Toaster />
-				</>
+				</body>
 			</AppProvider>
 		</html>
 	);
