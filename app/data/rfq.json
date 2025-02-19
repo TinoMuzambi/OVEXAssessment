@@ -1,0 +1,15 @@
+{
+	"market": "btczar",
+	"side": "buy",
+	"from_currency": "zar",
+	"from_amount": "500000.0",
+	"to_currency": "btc",
+	"to_amount": "0.27735707",
+	"rate": "1802730.345625",
+	"rate_is_from_currency": true,
+	"requested_at": 1739934690.5629234,
+	"expires_at": 1739934700.5629234,
+	"is_prefunded": false,
+	"sn": null,
+	"message": "You must be authenticated and fully KYC verified to receive a quote token."
+}
