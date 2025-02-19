@@ -6,8 +6,8 @@ import { Button } from "./ui/button";
 import { AppContext } from "@/app/context/AppContext";
 
 const Quote: React.FC = () => {
-	// Get data from context
 	const { quote, currencies } = useContext(AppContext);
+
 	const [timeLeft, setTimeLeft] = useState(0);
 
 	useEffect(() => {
