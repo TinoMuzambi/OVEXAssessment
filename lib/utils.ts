@@ -68,4 +68,5 @@ export interface RFQProps {
 
 export interface QuoteProps {
 	quote: QuoteType;
+	currencies: CurrencyType[];
 }
