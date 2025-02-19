@@ -8,6 +8,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 import markets from "@/app/data/markets.json"
 
@@ -41,6 +43,15 @@ const RFQ: React.FC = () => {
 							</SelectContent>
 						</Select>
 					</div>
+
+					<div className="space-y-2">
+						<Label>Amount</Label>
+						<Input type="number" placeholder="0.00" min={0} />
+					</div>
+
+					<Button className="w-full">
+						Get Quote
+					</Button>
 				</div>
 			</CardContent>
 		</Card>
