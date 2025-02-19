@@ -56,14 +56,34 @@ const Quote: React.FC = () => {
 		const currencyObj = currencies.find((c) => c.id === currency);
 
 		if (!currencyObj) {
-			return amount;
+			toast({
+				title: "Warning",
+				description: `Currency code "${currency}" not found. Displaying raw amount.`,
+				variant: "destructive",
+			});
+			return `${amount} ${currency.toUpperCase()}`;
 		}
 
-		return new Intl.NumberFormat("en-ZA", {
-			style: "currency",
-			currency: currencyObj?.id,
-			minimumFractionDigits: currencyObj?.type === "coin" ? 8 : 2,
-		}).format(amount);
+		const formatter = new Intl.NumberFormat("en-ZA", {
+			style: "decimal",
+			minimumFractionDigits: currencyObj.type === "coin" ? 8 : 2,
+			maximumFractionDigits: currencyObj.type === "coin" ? 8 : 2,
+		});
+
+		try {
+			const formattedAmount = formatter.format(amount);
+			return currencyObj.type === "coin"
+				? `${formattedAmount} ${currency.toUpperCase()}`
+				: `${currencyObj.symbol} ${formattedAmount}`;
+		} catch (error) {
+			console.error(error);
+			toast({
+				title: "Error",
+				description: "Unable to format currency. Displaying raw amount.",
+				variant: "destructive",
+			});
+			return `${amount} ${currency.toUpperCase()}`;
+		}
 	};
 
 	if (!quote) {
