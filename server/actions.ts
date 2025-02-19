@@ -1,9 +1,18 @@
 "use server"
 
-import { QuoteType } from "@/lib/utils";
+import { BASE_URL, MarketType, QuoteType } from "@/lib/utils";
 
 export async function getMarkets() {
+    const res = await fetch(`${BASE_URL}/markets`,
+        {
+            next: {
+                revalidate: 86400 // Revalidate at most every day
+            }
+        }
+    )
+    const json: MarketType[] = await res.json()
 
+    return json
 }
 
 export async function getCurrencies() {
