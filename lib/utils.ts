@@ -63,30 +63,25 @@ export type CurrencyType = {
 export const BASE_URL = "https://www.ovex.io/api/v2";
 
 export interface RFQProps {
-	markets: MarketType[];
-	currencies: CurrencyType[];
-}
-
-export interface QuoteProps {
-	quote: QuoteType;
-	currencies: CurrencyType[];
+	marketsProp: MarketType[];
+	currenciesProp: CurrencyType[];
 }
 
 export type Actions = {
 	type: "SET_CURRENCIES" | "SET_MARKETS" | "SET_QUOTE";
-	quote: QuoteType;
+	quote: QuoteType | undefined;
 	currencies: CurrencyType[];
 	markets: MarketType[];
 };
 
 export type State = {
-	quote: QuoteType;
+	quote: QuoteType | undefined;
 	currencies: CurrencyType[];
 	markets: MarketType[];
 };
 
 export interface ContextProps {
-	quote: QuoteType;
+	quote: QuoteType | undefined;
 	currencies: CurrencyType[];
 	markets: MarketType[];
 	setQuote?: (quote: QuoteType) => void;
