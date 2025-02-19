@@ -19,7 +19,7 @@ import Quote from "./Quote";
 import { QuoteType, RFQProps } from "@/lib/utils";
 import { requestQuote } from "@/server/actions";
 
-const RFQ: React.FC<RFQProps> = ({ markets }) => {
+const RFQ: React.FC<RFQProps> = ({ markets, currencies }) => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
@@ -49,7 +49,7 @@ const RFQ: React.FC<RFQProps> = ({ markets }) => {
 			market,
 			from_amount: amount,
 			side,
-			to_amount: "1",
+			to_amount: amount,
 		});
 		setQuote(quoteRes);
 		setFetching(false);
@@ -108,7 +108,7 @@ const RFQ: React.FC<RFQProps> = ({ markets }) => {
 					</Button>
 
 					{fetching ? <div>Fetching quote</div> : null}
-					{quote ? <Quote quote={quote} /> : null}
+					{quote ? <Quote quote={quote} currencies={currencies} /> : null}
 				</div>
 			</CardContent>
 		</Card>
