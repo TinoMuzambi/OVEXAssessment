@@ -11,10 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import markets from "@/data/markets.json"
 import Quote from "./Quote";
+import { RFQProps } from "@/lib/utils";
 
-const RFQ: React.FC = () => {
+const RFQ: React.FC<RFQProps> = ({markets, currencies}) => {
 	return <div className="">
 		<Card className="w-full max-w-md mx-auto">
 			<CardHeader className="text-xl font-medium">Request Quote</CardHeader>
