@@ -31,7 +31,10 @@ export async function requestQuote({
 	from_amount,
 	side,
 	to_amount,
-}: Pick<QuoteType, "market" | "from_amount" | "side" | "to_amount">) {
+}: Pick<
+	QuoteType,
+	"market" | "from_amount" | "side" | "to_amount"
+>): Promise<QuoteType> {
 	const res = await fetch(
 		`${BASE_URL}/rfq/get_quote?market=${market}&from_amount=${from_amount}&side=${side}&to_amount=${to_amount}`,
 		{
