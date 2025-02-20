@@ -92,32 +92,34 @@ const Quote: React.FC = () => {
 
 	return (
 		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg motion-preset-slide-up">
-			<div className="flex justify-between">
+			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">Cost:</span>
-				<span className="font-medium">
+				<span className="font-medium overflow-x-auto flex-shrink-0 whitespace-nowrap text-end">
 					{currencyFormatter(
 						quote.from_currency,
 						parseFloat(quote.from_amount)
 					)}
 				</span>
 			</div>
-			<div className="flex justify-between">
+			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">Rate:</span>
-				<span className="font-medium">
+				<span className="font-medium overflow-x-auto flex-shrink-0 whitespace-nowrap text-end">
 					{currencyFormatter(quote.from_currency, parseFloat(quote.rate))}/
 					{quote.to_currency.toLocaleUpperCase()}
 				</span>
 			</div>
-			<div className="flex justify-between">
+			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">You will receive:</span>
-				<span className="font-medium">
+				<span className="font-medium overflow-x-auto flex-shrink-0 whitespace-nowrap text-end">
 					{currencyFormatter(quote.to_currency, parseFloat(quote.to_amount))}
 				</span>
 			</div>
-			<div className="flex justify-between">
+			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">Quote expires in:</span>
 				<span
-					className={`font-medium ${timeLeft <= 5 ? "text-destructive" : ""}`}
+					className={`font-medium overflow-x-auto flex-shrink-0 whitespace-nowrap text-end ${
+						timeLeft <= 5 ? "text-destructive" : ""
+					}`}
 				>
 					{timeLeft > 0 ? `${timeLeft}s` : "Expired"}
 				</span>
