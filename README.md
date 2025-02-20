@@ -17,10 +17,10 @@ OVEX Request-for-Quote (RFQ) component using OVEX's public endpoints.
 ### Prerequisites
 
 - Node.js
-- Bun/NPM/Yarn
+- Bun/NPM/PNPM/Yarn
 
 ### Installation Steps
 
-1. `git clone https://github.com/TinoMuzambi/OVEXAssessment/tree/rfq .`
-2. `bun install`
-3. `bun --bun run dev`
+1. `git clone -b rfq https://github.com/TinoMuzambi/OVEXAssessment .`
+2. `bun install` or `npm install` or `pnpm install` or `yarn`
+3. `bun --bun run dev` or `npm run dev` or `pnpm run dev` or `yarn dev`
