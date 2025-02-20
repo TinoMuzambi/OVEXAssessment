@@ -94,7 +94,6 @@ const Quote: React.FC = () => {
 
 	return (
 		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg motion-preset-slide-up relative">
-			{/* Close quote icon */}
 			<div className="absolute top-1 right-2">
 				<Button
 					onClick={() => {
