@@ -24,7 +24,8 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import Quote from "./Quote";
-import { cn, RFQProps } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { RFQProps } from "@/lib/types";
 import { requestQuote } from "@/server/actions";
 import { AppContext } from "@/app/context/AppContext";
 import Image from "next/image";

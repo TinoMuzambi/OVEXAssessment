@@ -9,7 +9,7 @@ import {
 	QuoteType,
 	MarketType,
 	CurrencyType,
-} from "@/lib/utils";
+} from "@/lib/types";
 
 const initialState: ContextProps = {
 	quote: undefined,
@@ -22,7 +22,7 @@ export const AppContext = createContext<ContextProps>(initialState);
 export const AppProvider = ({ children }: AppProviderProps): JSX.Element => {
 	const [state, dispatch] = useReducer(AppReducer, initialState);
 
-	const setQuote = (quote: QuoteType) => {
+	const setQuote = (quote: QuoteType | undefined) => {
 		dispatch({
 			type: "SET_QUOTE",
 			quote,

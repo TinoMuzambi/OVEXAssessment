@@ -1,6 +1,7 @@
 "use server";
 
-import { BASE_URL, CurrencyType, MarketType, QuoteType } from "@/lib/utils";
+import { BASE_URL } from "@/lib/utils";
+import { CurrencyType, MarketType, QuoteType } from "@/lib/types";
 
 export async function getMarkets() {
 	try {

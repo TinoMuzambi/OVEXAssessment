@@ -1,4 +1,4 @@
-import { State, Actions } from "@/lib/utils";
+import { State, Actions } from "@/lib/types";
 
 const Reducer = (state: State, action: Actions): State => {
 	switch (action.type) {
