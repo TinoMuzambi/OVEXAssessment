@@ -70,22 +70,12 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	 * This function fetches a quote from the server and updates the context with the quote.
 	 */
 	const handleGetQuote = async () => {
-		if (!amount.replaceAll("0", "").length) {
-			toast({
+		if (!parseFloat(amount) || parseFloat(amount) <= 0) {
+			return toast({
 				title: "Error",
-				description: "Invalid amount value.",
+				description: "Invalid amount. Please enter a valid amount.",
 				variant: "destructive",
 			});
-			return;
-		}
-
-		if (amount.includes("-")) {
-			toast({
-				title: "Error",
-				description: "Amount cannot be negative.",
-				variant: "destructive",
-			});
-			return;
 		}
 
 		setFetching(true);
