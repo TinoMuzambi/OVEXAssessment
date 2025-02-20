@@ -1,9 +1,9 @@
 "use server";
 
 import { BASE_URL } from "@/lib/utils";
-import { CurrencyType, MarketType, QuoteType } from "@/lib/types";
+import { APIResponse, CurrencyType, MarketType, QuoteType } from "@/lib/types";
 
-export async function getMarkets() {
+export async function getMarkets(): Promise<APIResponse<MarketType[]>> {
 	try {
 		const res = await fetch(`${BASE_URL}/markets`, {
 			cache: "force-cache",
@@ -12,14 +12,25 @@ export async function getMarkets() {
 			},
 		});
 		const json: MarketType[] = await res.json();
-		return json;
+
+		return {
+			data: json,
+			status: res.status,
+		};
 	} catch (error) {
-		console.error(error);
-		return [];
+		console.error("Markets fetch error:", error);
+
+		return {
+			data: undefined,
+			error: `Failed to fetch markets: ${
+				error instanceof Error ? error.message : error
+			}`,
+			status: 500,
+		};
 	}
 }
 
-export async function getCurrencies() {
+export async function getCurrencies(): Promise<APIResponse<CurrencyType[]>> {
 	try {
 		const res = await fetch(`${BASE_URL}/currencies`, {
 			cache: "force-cache",
@@ -29,10 +40,20 @@ export async function getCurrencies() {
 		});
 		const json: CurrencyType[] = await res.json();
 
-		return json;
+		return {
+			data: json,
+			status: res.status,
+		};
 	} catch (error) {
-		console.error(error);
-		return [];
+		console.error("Currencies fetch error:", error);
+
+		return {
+			data: undefined,
+			error: `Failed to fetch currencies: ${
+				error instanceof Error ? error.message : error
+			}`,
+			status: 500,
+		};
 	}
 }
 
@@ -42,7 +63,7 @@ export async function requestQuote({
 	side,
 	to_amount,
 }: Pick<QuoteType, "market" | "from_amount" | "side" | "to_amount">): Promise<
-	QuoteType | undefined
+	APIResponse<QuoteType | undefined>
 > {
 	try {
 		const res = await fetch(
@@ -52,9 +73,19 @@ export async function requestQuote({
 		);
 		const json = await res.json();
 
-		return json;
+		return {
+			data: json,
+			status: res.status,
+		};
 	} catch (error) {
-		console.error(error);
-		return undefined;
+		console.error("Quote fetch error:", error);
+
+		return {
+			data: undefined,
+			error: `Failed to fetch quote: ${
+				error instanceof Error ? error.message : error
+			}`,
+			status: 500,
+		};
 	}
 }

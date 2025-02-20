@@ -97,7 +97,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 				side,
 				to_amount: amount,
 			});
-			if (setQuote && quoteRes) setQuote(quoteRes);
+			if (setQuote && quoteRes) setQuote(quoteRes.data);
 		} catch (error) {
 			console.error(error);
 			toast({

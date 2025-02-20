@@ -84,3 +84,9 @@ export interface ContextProps {
 export interface AppProviderProps {
 	children: JSX.Element;
 }
+
+export type APIResponse<T> = {
+	data: T | undefined;
+	error?: string;
+	status: number;
+};
