@@ -3,6 +3,10 @@
 import { BASE_URL } from "@/lib/utils";
 import { APIResponse, CurrencyType, MarketType, QuoteType } from "@/lib/types";
 
+/**
+ * This function fetches a list of markets from the OVEX API.
+ * @returns A list of markets
+ */
 export async function getMarkets(): Promise<APIResponse<MarketType[]>> {
 	try {
 		const res = await fetch(`${BASE_URL}/markets`, {
@@ -30,6 +34,10 @@ export async function getMarkets(): Promise<APIResponse<MarketType[]>> {
 	}
 }
 
+/**
+ * This function fetches a list of currencies from the OVEX API.
+ * @returns A list of currencies.
+ */
 export async function getCurrencies(): Promise<APIResponse<CurrencyType[]>> {
 	try {
 		const res = await fetch(`${BASE_URL}/currencies`, {
@@ -57,6 +65,11 @@ export async function getCurrencies(): Promise<APIResponse<CurrencyType[]>> {
 	}
 }
 
+/**
+ * This function fetches a quote from the OVEX API.
+ * @param param0 The quote parameters.
+ * @returns The quote response from the OVEX API.
+ */
 export async function requestQuote({
 	market,
 	from_amount,
@@ -66,10 +79,18 @@ export async function requestQuote({
 	APIResponse<QuoteType | undefined>
 > {
 	try {
+		// Sanitise parameters using URLSearchParams.
+		const searchParams = new URLSearchParams();
+		searchParams.set("market", market);
+		searchParams.set("side", side);
+		if (side === "buy") {
+			searchParams.set("from_amount", from_amount);
+		} else {
+			searchParams.set("to_amount", to_amount);
+		}
+
 		const res = await fetch(
-			`${BASE_URL}/rfq/get_quote?market=${market}&side=${side}&${
-				side === "buy" ? `from_amount=${from_amount}` : `to_amount=${to_amount}`
-			}`
+			`${BASE_URL}/rfq/get_quote?${searchParams.toString()}`
 		);
 		const json = await res.json();
 
