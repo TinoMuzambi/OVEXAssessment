@@ -84,7 +84,7 @@ export interface ContextProps {
 	quote: QuoteType | undefined;
 	currencies: CurrencyType[];
 	markets: MarketType[];
-	setQuote?: (quote: QuoteType) => void;
+	setQuote?: (quote: QuoteType | undefined) => void;
 	setCurrencies?: (currencies: CurrencyType[]) => void;
 	setMarkets?: (markets: MarketType[]) => void;
 }

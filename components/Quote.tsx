@@ -5,9 +5,10 @@ import { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { AppContext } from "@/app/context/AppContext";
+import { CircleX } from "lucide-react";
 
 const Quote: React.FC = () => {
-	const { quote, currencies } = useContext(AppContext);
+	const { quote, currencies, setQuote } = useContext(AppContext);
 
 	const [timeLeft, setTimeLeft] = useState(0);
 
@@ -91,7 +92,19 @@ const Quote: React.FC = () => {
 	}
 
 	return (
-		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg motion-preset-slide-up">
+		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg motion-preset-slide-up relative">
+			{/* Close quote icon */}
+			<div className="absolute top-1 right-2">
+				<Button
+					onClick={() => {
+						if (setQuote) setQuote(undefined);
+					}}
+					variant="ghost"
+					size="sm"
+				>
+					<CircleX size={8} />
+				</Button>
+			</div>
 			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">Cost:</span>
 				<span className="font-medium overflow-x-auto flex-shrink-0 whitespace-nowrap text-end">
