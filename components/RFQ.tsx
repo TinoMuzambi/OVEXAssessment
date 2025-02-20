@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 import { Check, ChevronsUpDown, Coins, Loader2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -130,6 +130,43 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [market]);
 
+	const marketOptions = useMemo(() => {
+		return markets.map((marketIter) => {
+			const icon1 = getCurrencyIcon(marketIter.name.split("/")[0]);
+			const icon2 = getCurrencyIcon(marketIter.name.split("/")[1]);
+			return (
+				<CommandItem
+					key={marketIter.id}
+					value={marketIter.id}
+					onSelect={(value) => {
+						handleUpdateParams("market", value);
+						setPopoverOpen(false);
+					}}
+					className="grid grid-cols-[1fr_1fr_2fr_1fr] justify-between gap-4 items-center"
+				>
+					<Check
+						className={cn(
+							"mr-2 h-4 w-4",
+							market === marketIter.id ? "opacity-100" : "opacity-0"
+						)}
+					/>
+					{icon1 ? (
+						<Image width={16} height={16} src={icon1} alt="" />
+					) : (
+						<Coins />
+					)}
+					<span>{marketIter.name}</span>
+					{icon2 ? (
+						<Image width={16} height={16} src={icon2} alt="" />
+					) : (
+						<Coins />
+					)}
+				</CommandItem>
+			);
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [markets, market]);
+
 	return (
 		<Card className="w-full max-w-md mx-auto motion-preset-pop">
 			<CardHeader className="text-xl font-medium">
@@ -203,63 +240,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 									<CommandInput placeholder="Search trading pair..." />
 									<CommandList>
 										<CommandEmpty>No trading pair found.</CommandEmpty>
-										<CommandGroup>
-											{markets.map((marketIter) => {
-												// Get the icon URLs for the trading pair
-												const icon1 = getCurrencyIcon(
-													marketIter.name.split("/")[0]
-												);
-												const icon2 = getCurrencyIcon(
-													marketIter.name.split("/")[1]
-												);
-
-												return (
-													<CommandItem
-														key={marketIter.id}
-														value={marketIter.id}
-														onSelect={(value) => {
-															handleUpdateParams("market", value);
-															setPopoverOpen(false);
-															setTradingPair(marketIter.name);
-														}}
-														className="grid grid-cols-[1fr_1fr_2fr_1fr] justify-between gap-4 items-center"
-													>
-														<Check
-															className={cn(
-																"mr-2 h-4 w-4",
-																market === marketIter.id
-																	? "opacity-100"
-																	: "opacity-0"
-															)}
-														/>
-
-														{icon1 ? (
-															<Image
-																width={16}
-																height={16}
-																alt={marketIter.name.split("/")[0]}
-																src={icon1}
-															/>
-														) : (
-															<Coins />
-														)}
-
-														<span>{marketIter.name}</span>
-
-														{icon2 ? (
-															<Image
-																width={16}
-																height={16}
-																alt={marketIter.name.split("/")[0]}
-																src={icon2}
-															/>
-														) : (
-															<Coins />
-														)}
-													</CommandItem>
-												);
-											})}
-										</CommandGroup>
+										<CommandGroup>{marketOptions}</CommandGroup>
 									</CommandList>
 								</Command>
 							</PopoverContent>
