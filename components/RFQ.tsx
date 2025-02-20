@@ -63,7 +63,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 		} else {
 			newParams.delete(key);
 		}
-		router.replace(`?${newParams.toString()}`);
+		router.push(`?${newParams.toString()}`, { scroll: false });
 	};
 
 	/**
