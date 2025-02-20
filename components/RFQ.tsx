@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useContext, useState, useEffect } from "react";
-import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import { Check, ChevronsUpDown, Coins, Loader2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -27,6 +27,7 @@ import Quote from "./Quote";
 import { cn, RFQProps } from "@/lib/utils";
 import { requestQuote } from "@/server/actions";
 import { AppContext } from "@/app/context/AppContext";
+import Image from "next/image";
 
 const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	const { markets, setMarkets, setCurrencies, quote, setQuote } =
@@ -35,6 +36,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	const [fetching, setFetching] = useState(false);
 	const [popoverOpen, setPopoverOpen] = useState(false);
 	const [tradingPair, setTradingPair] = useState("");
+	const [tradingPairIcons, setTradingPairIcons] = useState<string[]>([]);
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -109,14 +111,28 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	useEffect(() => {
 		if (setMarkets) setMarkets(marketsProp);
 		if (setCurrencies) setCurrencies(currenciesProp);
+
 		if (market) {
 			const marketObj = marketsProp.find(
 				(marketIter) => marketIter.id === market
 			);
-			if (marketObj) setTradingPair(marketObj.name);
+
+			if (marketObj) {
+				setTradingPair(marketObj.name);
+
+				// Get the icon URLs for the trading pair
+				const icon1 = currenciesProp.find(
+					(curr) => curr.id === marketObj.name.split("/")[0].toLowerCase()
+				)?.icon_url;
+				const icon2 = currenciesProp.find(
+					(curr) => curr.id === marketObj.name.split("/")[1].toLowerCase()
+				)?.icon_url;
+
+				if (icon1 && icon2) setTradingPairIcons([icon1, icon2]);
+			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [market]);
 
 	return (
 		<Card className="w-full max-w-md mx-auto motion-preset-pop">
@@ -154,10 +170,35 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 									aria-expanded={popoverOpen}
 									className="w-full justify-between"
 								>
-									{market
-										? markets.find((marketIter) => marketIter.id === market)
-												?.name
-										: "Select trading pair..."}
+									{market ? (
+										<div className="flex items-center gap-2">
+											{tradingPairIcons[0] ? (
+												<Image
+													width={16}
+													height={16}
+													alt={tradingPair.split("/")[0]}
+													src={tradingPairIcons[0]}
+												/>
+											) : (
+												<Coins />
+											)}
+
+											<span>{tradingPair}</span>
+
+											{tradingPairIcons[1] ? (
+												<Image
+													width={16}
+													height={16}
+													alt={tradingPair.split("/")[0]}
+													src={tradingPairIcons[1]}
+												/>
+											) : (
+												<Coins />
+											)}
+										</div>
+									) : (
+										"Select trading pair..."
+									)}
 									<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 								</Button>
 							</PopoverTrigger>
@@ -167,27 +208,64 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 									<CommandList>
 										<CommandEmpty>No trading pair found.</CommandEmpty>
 										<CommandGroup>
-											{markets.map((marketIter) => (
-												<CommandItem
-													key={marketIter.id}
-													value={marketIter.id}
-													onSelect={(value) => {
-														handleUpdateParams("market", value);
-														setPopoverOpen(false);
-														setTradingPair(marketIter.name);
-													}}
-												>
-													<Check
-														className={cn(
-															"mr-2 h-4 w-4",
-															market === marketIter.id
-																? "opacity-100"
-																: "opacity-0"
+											{markets.map((marketIter) => {
+												// Get the icon URLs for the trading pair
+												const icon1 = currenciesProp.find(
+													(curr) =>
+														curr.id ===
+														marketIter.name.split("/")[0].toLowerCase()
+												)?.icon_url;
+												const icon2 = currenciesProp.find(
+													(curr) =>
+														curr.id ===
+														marketIter.name.split("/")[1].toLowerCase()
+												)?.icon_url;
+												return (
+													<CommandItem
+														key={marketIter.id}
+														value={marketIter.id}
+														onSelect={(value) => {
+															handleUpdateParams("market", value);
+															setPopoverOpen(false);
+															setTradingPair(marketIter.name);
+														}}
+														className="grid grid-cols-[1fr_1fr_2fr_1fr] justify-between gap-4 items-center"
+													>
+														<Check
+															className={cn(
+																"mr-2 h-4 w-4",
+																market === marketIter.id
+																	? "opacity-100"
+																	: "opacity-0"
+															)}
+														/>
+
+														{icon1 ? (
+															<Image
+																width={16}
+																height={16}
+																alt={marketIter.name.split("/")[0]}
+																src={icon1}
+															/>
+														) : (
+															<Coins />
 														)}
-													/>
-													{marketIter.name}
-												</CommandItem>
-											))}
+
+														<span>{marketIter.name}</span>
+
+														{icon2 ? (
+															<Image
+																width={16}
+																height={16}
+																alt={marketIter.name.split("/")[0]}
+																src={icon2}
+															/>
+														) : (
+															<Coins />
+														)}
+													</CommandItem>
+												);
+											})}
 										</CommandGroup>
 									</CommandList>
 								</Command>
