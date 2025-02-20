@@ -1,11 +1,11 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
+import { CircleX } from "lucide-react";
 
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { AppContext } from "@/app/context/AppContext";
-import { CircleX } from "lucide-react";
 
 const Quote: React.FC = () => {
 	const { quote, currencies, setQuote } = useContext(AppContext);
@@ -24,6 +24,7 @@ const Quote: React.FC = () => {
 			return;
 		}
 
+		// Calculate time left
 		let initialTimeLeft = quote.expires_at - Date.now() / 1000;
 		initialTimeLeft = Math.floor(initialTimeLeft);
 
@@ -114,6 +115,7 @@ const Quote: React.FC = () => {
 					)}
 				</span>
 			</div>
+
 			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">Rate:</span>
 				<span className="font-medium overflow-x-auto flex-shrink-0 whitespace-nowrap text-end">
@@ -121,12 +123,14 @@ const Quote: React.FC = () => {
 					{quote.to_currency.toLocaleUpperCase()}
 				</span>
 			</div>
+
 			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">You will receive:</span>
 				<span className="font-medium overflow-x-auto flex-shrink-0 whitespace-nowrap text-end">
 					{currencyFormatter(quote.to_currency, parseFloat(quote.to_amount))}
 				</span>
 			</div>
+
 			<div className="grid grid-cols-[2fr_3fr] gap-4 min-w-0 overflow-x-auto">
 				<span className="text-muted-foreground">Quote expires in:</span>
 				<span
