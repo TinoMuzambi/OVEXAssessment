@@ -121,7 +121,9 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	return (
 		<Card className="w-full max-w-md mx-auto motion-preset-pop">
 			<CardHeader className="text-xl font-medium">
-				<CardTitle className="text-xl font-medium">Request Quote</CardTitle>
+				<CardTitle className="text-xl font-medium">
+					Request for a Quote
+				</CardTitle>
 				{tradingPair && (
 					<small>
 						{side === "buy" ? "Buy" : "Sell"} {tradingPair.split("/")[0]}{" "}
