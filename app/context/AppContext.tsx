@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, JSX, useReducer } from "react";
+import { createContext, ReactNode, useReducer } from "react";
 
 import AppReducer from "./AppReducer";
 import {
@@ -19,7 +19,7 @@ const initialState: ContextProps = {
 
 export const AppContext = createContext<ContextProps>(initialState);
 
-export const AppProvider = ({ children }: AppProviderProps): JSX.Element => {
+export const AppProvider = ({ children }: AppProviderProps): ReactNode => {
 	const [state, dispatch] = useReducer(AppReducer, initialState);
 
 	const setQuote = (quote: QuoteType | undefined) => {

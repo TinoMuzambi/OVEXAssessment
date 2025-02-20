@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 export type QuoteType = {
 	market: string;
@@ -82,7 +82,7 @@ export interface ContextProps {
 }
 
 export interface AppProviderProps {
-	children: JSX.Element;
+	children: ReactNode;
 }
 
 export type APIResponse<T> = {
