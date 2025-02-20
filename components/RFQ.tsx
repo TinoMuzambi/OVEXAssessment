@@ -109,6 +109,15 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 		setFetching(false);
 	};
 
+	/**
+	 * This function gets the icon URL for the given currency ID.
+	 * @param currencyId The currency ID to get the icon for.
+	 * @returns The icon URL for the given currency ID.
+	 */
+	const getCurrencyIcon = (currencyId: string) =>
+		currenciesProp.find((curr) => curr.id === currencyId.toLowerCase())
+			?.icon_url || null;
+
 	useEffect(() => {
 		if (setMarkets) setMarkets(marketsProp);
 		if (setCurrencies) setCurrencies(currenciesProp);
@@ -122,12 +131,8 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 				setTradingPair(marketObj.name);
 
 				// Get the icon URLs for the trading pair
-				const icon1 = currenciesProp.find(
-					(curr) => curr.id === marketObj.name.split("/")[0].toLowerCase()
-				)?.icon_url;
-				const icon2 = currenciesProp.find(
-					(curr) => curr.id === marketObj.name.split("/")[1].toLowerCase()
-				)?.icon_url;
+				const icon1 = getCurrencyIcon(marketObj.name.split("/")[0]);
+				const icon2 = getCurrencyIcon(marketObj.name.split("/")[1]);
 
 				if (icon1 && icon2) setTradingPairIcons([icon1, icon2]);
 			}
@@ -211,16 +216,13 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 										<CommandGroup>
 											{markets.map((marketIter) => {
 												// Get the icon URLs for the trading pair
-												const icon1 = currenciesProp.find(
-													(curr) =>
-														curr.id ===
-														marketIter.name.split("/")[0].toLowerCase()
-												)?.icon_url;
-												const icon2 = currenciesProp.find(
-													(curr) =>
-														curr.id ===
-														marketIter.name.split("/")[1].toLowerCase()
-												)?.icon_url;
+												const icon1 = getCurrencyIcon(
+													marketIter.name.split("/")[0]
+												);
+												const icon2 = getCurrencyIcon(
+													marketIter.name.split("/")[1]
+												);
+
 												return (
 													<CommandItem
 														key={marketIter.id}
