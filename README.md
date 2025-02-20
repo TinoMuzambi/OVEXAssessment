@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OVEX RFQ Component
 
-## Getting Started
+PR Deployment: [https://ovex-assessment-git-rfq-tino-muzambis-projects.vercel.app/](https://ovex-assessment-git-rfq-tino-muzambis-projects.vercel.app/)
+PR Link: [https://github.com/TinoMuzambi/OVEXAssessment/pull/1](https://github.com/TinoMuzambi/OVEXAssessment/pull/1)
 
-First, run the development server:
+OVEX Request-for-Quote (RFQ) component using OVEX's public endpoints.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Requirements
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [x] Select a market (e.g., BTC/USDT, ETH/ZAR etc.).
+- [x] Enter the amount they want to trade - the user must be able to buy or Sell.
+- [x] Submit a request to get a quote and display it to the user.
+- [x] Quotes are timed and will expire at the end of expiry period.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
 
-## Learn More
+- Node.js
+- Bun/NPM/PNPM/Yarn
 
-To learn more about Next.js, take a look at the following resources:
+### Installation Steps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `git clone -b rfq https://github.com/TinoMuzambi/OVEXAssessment .`
+2. `bun install` or `npm install` or `pnpm install` or `yarn`
+3. `bun --bun run dev` or `npm run dev` or `pnpm run dev` or `yarn dev`
