@@ -15,7 +15,17 @@ export async function getMarkets(): Promise<APIResponse<MarketType[]>> {
 				revalidate: 86400, // Revalidate at most every day
 			},
 		});
+		if (!res.ok) {
+			return {
+				data: undefined,
+				error: `Markets request failed with status ${res.status}.`,
+				status: res.status,
+			};
+		}
 		const json: MarketType[] = await res.json();
+		if (!Array.isArray(json)) {
+			throw new Error("Markets response was not a list");
+		}
 
 		return {
 			data: json,
@@ -46,7 +56,17 @@ export async function getCurrencies(): Promise<APIResponse<CurrencyType[]>> {
 				revalidate: 86400, // Revalidate at most every day
 			},
 		});
+		if (!res.ok) {
+			return {
+				data: undefined,
+				error: `Currencies request failed with status ${res.status}.`,
+				status: res.status,
+			};
+		}
 		const json: CurrencyType[] = await res.json();
+		if (!Array.isArray(json)) {
+			throw new Error("Currencies response was not a list");
+		}
 
 		return {
 			data: json,
@@ -92,7 +112,14 @@ export async function requestQuote({
 		const res = await fetch(
 			`${BASE_URL}/rfq/get_quote?${searchParams.toString()}`
 		);
-		const json = await res.json();
+		const json: QuoteType & { message?: string } = await res.json();
+		if (!res.ok) {
+			return {
+				data: undefined,
+				error: json.message || `Quote request failed with status ${res.status}.`,
+				status: res.status,
+			};
+		}
 
 		return {
 			data: json,

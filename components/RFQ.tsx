@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useContext, useState, useEffect, useMemo } from "react";
+import { useContext, useState, useMemo } from "react";
 import { Check, ChevronsUpDown, Coins, Loader2 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,13 +31,10 @@ import { AppContext } from "@/app/context/AppContext";
 import Image from "next/image";
 
 const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
-	const { markets, setMarkets, setCurrencies, quote, setQuote } =
-		useContext(AppContext);
+	const { quote, setQuote } = useContext(AppContext);
 
 	const [fetching, setFetching] = useState(false);
 	const [popoverOpen, setPopoverOpen] = useState(false);
-	const [tradingPair, setTradingPair] = useState("");
-	const [tradingPairIcons, setTradingPairIcons] = useState<string[]>([]);
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -87,7 +84,15 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 				side,
 				to_amount: amount,
 			});
-			if (setQuote && quoteRes) setQuote(quoteRes.data);
+			if (!quoteRes.data) {
+				toast({
+					title: "Quote unavailable",
+					description: quoteRes.error || "Please try again later.",
+					variant: "destructive",
+				});
+				return;
+			}
+			if (setQuote) setQuote(quoteRes.data);
 		} catch (error) {
 			console.error(error);
 			toast({
@@ -95,8 +100,9 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 				description: "Failed to get quote. Please try again.",
 				variant: "destructive",
 			});
+		} finally {
+			setFetching(false);
 		}
-		setFetching(false);
 	};
 
 	/**
@@ -108,30 +114,17 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 		currenciesProp.find((curr) => curr.id === currencyId.toLowerCase())
 			?.icon_url || null;
 
-	useEffect(() => {
-		if (setMarkets) setMarkets(marketsProp);
-		if (setCurrencies) setCurrencies(currenciesProp);
-
-		if (market) {
-			const marketObj = marketsProp.find(
-				(marketIter) => marketIter.id === market
-			);
-
-			if (marketObj) {
-				setTradingPair(marketObj.name);
-
-				// Get the icon URLs for the trading pair
-				const icon1 = getCurrencyIcon(marketObj.name.split("/")[0]);
-				const icon2 = getCurrencyIcon(marketObj.name.split("/")[1]);
-
-				if (icon1 && icon2) setTradingPairIcons([icon1, icon2]);
-			}
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [market]);
+	const selectedMarket = useMemo(
+		() => marketsProp.find((marketIter) => marketIter.id === market),
+		[market, marketsProp]
+	);
+	const tradingPair = selectedMarket?.name ?? "";
+	const tradingPairIcons = tradingPair
+		? tradingPair.split("/").map(getCurrencyIcon)
+		: [];
 
 	const marketOptions = useMemo(() => {
-		return markets.map((marketIter) => {
+		return marketsProp.map((marketIter) => {
 			const icon1 = getCurrencyIcon(marketIter.name.split("/")[0]);
 			const icon2 = getCurrencyIcon(marketIter.name.split("/")[1]);
 			return (
@@ -165,7 +158,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 			);
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [markets, market]);
+	}, [marketsProp, market]);
 
 	return (
 		<Card className="w-full max-w-md mx-auto motion-preset-pop">
@@ -270,7 +263,9 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 						)}
 					</Button>
 
-					{quote && <Quote />}
+					{quote && (
+						<Quote key={quote.expires_at} currencies={currenciesProp} />
+					)}
 				</div>
 			</CardContent>
 		</Card>

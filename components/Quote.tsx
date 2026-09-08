@@ -6,47 +6,29 @@ import { CircleX } from "lucide-react";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { AppContext } from "@/app/context/AppContext";
+import type { CurrencyType } from "@/lib/types";
 
-const Quote: React.FC = () => {
-	const { quote, currencies, setQuote } = useContext(AppContext);
+type QuoteProps = {
+	currencies: CurrencyType[];
+};
 
-	const [timeLeft, setTimeLeft] = useState(0);
+const Quote: React.FC<QuoteProps> = ({ currencies }) => {
+	const { quote, setQuote } = useContext(AppContext);
+	const [now, setNow] = useState(() => Date.now());
 
 	const { toast } = useToast();
 
 	useEffect(() => {
-		if (!quote) {
-			toast({
-				title: "Error",
-				description: "Failed to get quote. Please try again.",
-				variant: "destructive",
-			});
-			return;
-		}
-
-		// Calculate time left
-		let initialTimeLeft = quote.expires_at - Date.now() / 1000;
-		initialTimeLeft = Math.floor(initialTimeLeft);
-
-		if (initialTimeLeft > 0) {
-			setTimeLeft(initialTimeLeft);
-		} else {
-			setTimeLeft(0);
-		}
-
 		const timer = setInterval(() => {
-			setTimeLeft((prev) => {
-				if (prev <= 1) {
-					clearInterval(timer);
-					return 0;
-				}
-				return prev - 1;
-			});
+			setNow(Date.now());
 		}, 1000);
 
 		return () => clearInterval(timer);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [quote]);
+	}, []);
+
+	const timeLeft = quote
+		? Math.max(0, Math.floor(quote.expires_at - now / 1000))
+		: 0;
 
 	/**
 	 * This function formats a currency amount to a string with the given currency symbol
