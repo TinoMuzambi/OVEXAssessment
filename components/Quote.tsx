@@ -75,7 +75,7 @@ const Quote: React.FC<QuoteProps> = ({ currencies }) => {
 	}
 
 	return (
-		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg motion-preset-slide-up relative">
+		<div className="mt-6 space-y-4 p-4 bg-muted rounded-lg animate-quote-slide-up relative motion-reduce:animate-none">
 			<div className="absolute top-1 right-2">
 				<Button
 					onClick={() => {

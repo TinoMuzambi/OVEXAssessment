@@ -26,7 +26,7 @@ through a small server-action boundary and checked-in mock fixtures.
 
 ### Prerequisites
 
-- Node.js 20.9 or newer
+- Node.js 22
 - Bun 1.4.2
 
 ### Installation Steps

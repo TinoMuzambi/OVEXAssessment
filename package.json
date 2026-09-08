@@ -4,7 +4,7 @@
 	"private": true,
 	"packageManager": "bun@1.4.2",
 	"engines": {
-		"node": ">=20.9.0"
+		"node": "22.x"
 	},
 	"author": {
 		"name": "Tino Muzambi",
@@ -49,7 +49,6 @@
 		"eslint-config-next": "16.3.4",
 		"postcss": "^8.5.28",
 		"tailwindcss": "^3.4.19",
-		"tailwindcss-motion": "^1.1.1",
 		"typescript": "^5.9.3"
 	}
 }

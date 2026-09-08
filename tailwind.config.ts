@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
-import tailwindcssmotion from "tailwindcss-motion";
 
 export default {
 	darkMode: ["class"],
@@ -10,7 +9,21 @@ export default {
 		"./app/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	theme: {
-		extend: {
+			extend: {
+			keyframes: {
+				"rfq-pop": {
+					"0%": { opacity: "0", transform: "scale(0.96)" },
+					"100%": { opacity: "1", transform: "scale(1)" },
+				},
+				"quote-slide-up": {
+					"0%": { opacity: "0", transform: "translateY(0.75rem)" },
+					"100%": { opacity: "1", transform: "translateY(0)" },
+				},
+			},
+			animation: {
+				"rfq-pop": "rfq-pop 240ms ease-out both",
+				"quote-slide-up": "quote-slide-up 240ms ease-out both",
+			},
 			colors: {
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
@@ -63,5 +76,5 @@ export default {
 			},
 		},
 	},
-	plugins: [animate, tailwindcssmotion],
+	plugins: [animate],
 } satisfies Config;

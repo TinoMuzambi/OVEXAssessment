@@ -161,7 +161,7 @@ const RFQ: React.FC<RFQProps> = ({ marketsProp, currenciesProp }) => {
 	}, [marketsProp, market]);
 
 	return (
-		<Card className="w-full max-w-md mx-auto motion-preset-pop">
+		<Card className="w-full max-w-md mx-auto animate-rfq-pop motion-reduce:animate-none">
 			<CardHeader className="text-xl font-medium">
 				<CardTitle className="text-xl font-medium">
 					Request for a Quote
